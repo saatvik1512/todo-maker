@@ -1,0 +1,23 @@
+{
+  "name": "todo-maker",
+  "version": "1.0.0",
+  "description": "A todolist made as a project",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saatvik1512/todo-maker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saatvik1512/todo-maker/issues"
+  },
+  "homepage": "https://github.com/saatvik1512/todo-maker#readme",
+  "dependencies": {
+    "moment": "^2.30.1"
+  }
+}
