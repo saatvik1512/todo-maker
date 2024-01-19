@@ -8,10 +8,38 @@
     <title>Document</title>
 </head>
 <body>
+
+    <dialog id="favdialog">
+        <form method="dialog" id="formControl">
+            <label for="title">Title: </label>
+            <input type="text" name="title" id="title">
+
+            <label for="description">Title: </label>
+            <input type="text" name="description" id="description">
+
+            <label for="date">Assign date: </label>
+            <input type="date" name="Date" id="date">
+
+            <label for="priority">
+                <select name="priority" id="priority">
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                </select>
+            </label>
+
+            <label for="checked">Task Done</label>
+            <input type='radio' name="check" id="checked">
+
+            <label for="unchecked">Not Done</label>
+            <input type="radio" name="check" id="unchecked">
+        </form>
+    </dialog>
     <div class="top-container">
-        <div class="header"></div>
-        <div class="sidebar"></div>
-        <div class="main-content"></div>
+        <div class="header"><h1>Header</h1></div>
+        <div class="sidebar"><h1>sidebar</h1></div>
+        <div class="main-content"><h1>Content</h1></div>
+        <Button>+</Button>
     </div>
     <script src="script.js"></script>
 </body>
