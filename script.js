@@ -1,39 +1,23 @@
-const inbox = []
 
-function createTodo()  {
-    const title = prompt('Choose title');
-        const description = prompt('note description');
-        const dueDate = prompt('choose a date');
-        const priority = prompt('choose priority');
+const mainContainer = document.querySelector('.main-content')
+
+function createTodo(title, description, dueDate, priority, check)  {
         return {
             title: title,
             description: description,
             dueDate: dueDate,
-            check: false,
-            priority: priority.toLowerCase(),
+            priority: priority,
+            check: extractCheckValue(check),
             changeStatus() {
                 console.log(`previous value was ${this.check} and was changed to ${!this.check}`)
                 this.check = !this.check;
-            },
-            changePriority() {
-                const opinion = prompt('Please type priority');
-                if (checkPriority(opinion)) this.priority = opinion;
-                console.log(`priority has been changed to ${opinion}`)
             }
         }
 }
 
-function addTodoToList()  {
-    const newTodo = createTodo();
-    const array_Name = prompt('Which array to add');
-    if (newTodo.title != '' && checkPriority(newTodo.priority)) setItemToArray(newTodo, array_Name)
-    console.table(inbox)
-}
-
-function checkPriority(word)  {
-    const arr = ['low', 'high', 'normal'];
-    if (arr.includes(word.toLowerCase())) return true;
-    return false;
+function addTodoToList  (title, description, date, priority, checked)  {
+    const newTodo = createTodo(title, description, date, priority, checked);
+    if (newTodo.title != '') setItemToArray(newTodo)
 }
 
 function createProject(arrayName)  {
@@ -42,18 +26,106 @@ function createProject(arrayName)  {
     localStorage.setItem(arrayName, JSON.stringify(newArr))
 }
 
-function setItemToArray(newTodo, array_Name)  {
-    if (localStorage.getItem(array_Name) == null) return
-    const returnedArray = JSON.parse(localStorage.getItem(array_Name))
+function setItemToArray(newTodo)  {
+    if (localStorage.getItem("inbox") == null) {
+      const vegeta = []
+      localStorage.setItem('inbox', JSON.stringify(vegeta))
+    }
+    const returnedArray = JSON.parse(localStorage.getItem("inbox"))
+  
     returnedArray.push(newTodo);
-    localStorage.setItem(array_Name, JSON.stringify(returnedArray))
+    localStorage.setItem("inbox", JSON.stringify(returnedArray))
+  domMaker(newTodo, returnedArray.indexOf(newTodo));
 }
 
-function removeItemFromArray(){
-    const arrayName = prompt('Name of the Array');
-    const itemTitle = prompt('item of title');
-    const derivedArray = JSON.parse(localStorage.getItem(arrayName));
-    const index = derivedArray.findIndex(item => item.title === itemTitle);
-    if (index !== -1) derivedArray.splice(index, 1);
-    localStorage.setItem(arrayName, JSON.stringify(derivedArray))
+function extractCheckValue(check)  {
+  let incheon;
+  check.forEach(item => {
+    if (item.checked) {
+      incheon = item.value
+    }
+  })
+  return incheon
+}
+
+function removeItemFromArray(dataNumber){
+    const derivedArray = JSON.parse(localStorage.getItem("inbox"));
+    if (dataNumber) derivedArray.splice(dataNumber, 1);
+    localStorage.setItem("inbox", JSON.stringify(derivedArray))
+}
+
+function removingelement(element){
+  element.remove();
+  setDataAttribute();
+}
+
+function setDataAttribute(){
+  let i = 0;
+  const listNodes = document.querySelectorAll('.newTodo')
+  listNodes.forEach(item => {
+    item.dataset.number = i;
+    i++;
+  })
+}
+
+function domMaker(newtodo, index){
+  const latestDom =  `<div class='newTodo' data-number=${index}>
+  <div class='part1'><input type='checkbox' id='task-done'><p class='title'>${newtodo.title}</p>
+  <p class="description">${newtodo.description}</p>
+  <button class="edit">Edit</button><button
+  class="removeTodo">❌</button></div></div>`
+  mainContainer.innerHTML += latestDom;
+  removerFuck()
+}
+
+
+(function dialogHandler(){
+
+  getLatestItem();
+  
+  const button = document.querySelector('.main-button');
+  button.addEventListener('click', () => {
+    dialog.showModal()
+  });
+  
+  const dialog = document.querySelector('#favdialog');
+  const title = dialog.querySelector('#title');
+  const description = dialog.querySelector('#description')
+  const date = dialog.querySelector('#date')
+  const priority = dialog.querySelector('#priority');
+  const checked = dialog.querySelectorAll('input[type="radio"]');
+  const confirmBtn = dialog.querySelector('#confirm-button');
+  const cancelBtn = dialog.querySelector('#cancel-button');
+
+  confirmBtn.addEventListener('click', ()=> {
+    if (title.value !== ''){
+      addTodoToList(title.value, description.value, date.value, priority.value, checked)
+    }
+  })
+
+  cancelBtn.addEventListener('click', (e) => {
+    dialog.close();
+    e.preventDefault();
+  })
+})();
+
+function getLatestItem(){
+  if(localStorage.getItem('inbox') == null) return;
+  
+  const lastItems = JSON.parse(localStorage.getItem('inbox'));
+
+  lastItems.forEach(item => {
+    domMaker(item, lastItems.indexOf(item))
+  })
+}
+
+function removerFuck(){
+  const lostOfAllNodes = document.querySelectorAll('.newTodo');
+  lostOfAllNodes.forEach(node => {
+    const deletedNode = node.querySelector('.removeTodo');
+    deletedNode.addEventListener('click', ()=>{
+      removeItemFromArray(node.dataset.number)
+      removingelement(node);
+    })
+  })
 }

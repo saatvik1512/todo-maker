@@ -11,35 +11,54 @@
 
     <dialog id="favdialog">
         <form method="dialog" id="formControl">
+          <div>
             <label for="title">Title: </label>
-            <input type="text" name="title" id="title">
+            <input type="text" name="title" id="title" required>
+          </div>
 
-            <label for="description">Title: </label>
-            <input type="text" name="description" id="description">
 
+          <div>
+            <label for="description">Description: </label>
+            <input type="text" name="description" id="description" required>
+          </div>
+
+
+          <div>
             <label for="date">Assign date: </label>
-            <input type="date" name="Date" id="date">
+            <input type="date" name="Date" id="date" placeholder="dd-mm-yyyy" min='2020-01-01' max='2030-01-01' required>
+          </div>
 
-            <label for="priority">
+            <label for="priority">Select priority
                 <select name="priority" id="priority">
                     <option value="low">Low</option>
-                    <option value="normal">Normal</option>
+                    <option value="normal" selected>Normal</option>
                     <option value="high">High</option>
                 </select>
             </label>
 
-            <label for="checked">Task Done</label>
-            <input type='radio' name="check" id="checked">
 
+          <div>
+            <label for="checked">Task Done</label>
+            <input type='radio' name="check" id="checked" required value= true>
+          </div>
+
+
+          <div>
             <label for="unchecked">Not Done</label>
-            <input type="radio" name="check" id="unchecked">
+            <input value= false type="radio" name="check" id="unchecked" checked>
+          </div>
+
+          <div>
+            <button class="confirmButton" id="confirm-button">Confirm</button>
+            <button class="cancelButton" id="cancel-button">Cancel</button>
+          </div>
         </form>
     </dialog>
     <div class="top-container">
         <div class="header"><h1>Header</h1></div>
         <div class="sidebar"><h1>sidebar</h1></div>
-        <div class="main-content"><h1>Content</h1></div>
-        <Button>+</Button>
+        <div class="main-content"></div>
+        <Button class='main-button'>+</Button>
     </div>
     <script src="script.js"></script>
 </body>
